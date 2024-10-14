@@ -1,5 +1,5 @@
 {% set name = "b3sum" %}
-{% set version = "1.5.0" %}
+{% set version = "1.5.4" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/BLAKE3-team/BLAKE3/archive/refs/tags/{{ version }}.tar.gz
-  sha256: f506140bc3af41d3432a4ce18b3b83b08eaa240e94ef161eb72b2e57cdc94c69
+  sha256: ddd24f26a31d23373e63d9be2e723263ac46c8b6d49902ab08024b573fd2a416
 
 
 build:
@@ -17,7 +17,9 @@ requirements:
   build:
     - {{ compiler('rust') }}
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - cargo-bundle-licenses
 
 test:
