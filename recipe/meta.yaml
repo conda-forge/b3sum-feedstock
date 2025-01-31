@@ -9,17 +9,14 @@ source:
   url: https://github.com/BLAKE3-team/BLAKE3/archive/refs/tags/{{ version }}.tar.gz
   sha256: 6feba0750efc1a99a79fb9a495e2628b5cd1603e15f56a06b1d6cb13ac55c618
 
-
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
     - {{ compiler('rust') }}
-    - {{ compiler('c') }}              # [not win]
-    - {{ stdlib("c") }}                # [not win]
-    - {{ compiler('m2w64_c') }}        # [win]
-    - {{ stdlib("m2w64_c") }}          # [win]
+    - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - cargo-bundle-licenses
 
 test:
