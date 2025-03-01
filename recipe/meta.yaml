@@ -1,5 +1,5 @@
 {% set name = "b3sum" %}
-{% set version = "1.6.0" %}
+{% set version = "1.6.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/BLAKE3-team/BLAKE3/archive/refs/tags/{{ version }}.tar.gz
-  sha256: cc6839962144126bc6cc1cde89a50c3bb000b42a93d7e5295b1414d9bdf70c12
+  sha256: 1f2fbd93790694f1ad66eef26e23c42260a1916927184d78d8395ff1a512d285
 
 build:
   number: 0
