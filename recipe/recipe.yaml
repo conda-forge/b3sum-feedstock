@@ -1,0 +1,62 @@
+context:
+  version: "1.8.7"
+
+package:
+  name: b3sum
+  version: ${{ version }}
+
+source:
+  url: https://github.com/BLAKE3-team/BLAKE3/archive/refs/tags/${{ version }}.tar.gz
+  sha256: c6782a28842b1c0478524ac06a4f2ede784038ee298d6e2162c0b089c4306a3c
+
+build:
+  number: 1
+  script:
+    env:
+      CARGO_PROFILE_RELEASE_STRIP: symbols
+      CARGO_PROFILE_RELEASE_LTO: fat
+    content:
+      - cd b3sum
+      - if: unix
+        then:
+          - cargo auditable install --locked --no-track --bins --root ${{ PREFIX }} --path .
+        else:
+          - cargo auditable install --locked --no-track --bins --root %LIBRARY_PREFIX% --path .
+      - cargo-bundle-licenses --format yaml --output ../THIRDPARTY.yml
+
+requirements:
+  build:
+    - ${{ stdlib('c') }}
+    - ${{ compiler('c') }}
+    - ${{ compiler('rust') }}
+    - cargo-bundle-licenses
+    - cargo-auditable
+
+tests:
+  - script:
+      - b3sum --help
+      - if: unix
+        then:
+          - test "$(printf abc | b3sum --no-names)" = 6437b3ac38465133ffb63b75273a8db548c558465d79db03fd359c6cd5bd9d85
+  - package_contents:
+      bin:
+        - b3sum
+      strict: true
+
+about:
+  homepage: https://github.com/BLAKE3-team/BLAKE3
+  summary: A command line utility for calculating BLAKE3 hashes.
+  description: |
+    A command line utility for calculating BLAKE3 hashes,
+    similar to Coreutils tools like b2sum or md5sum.
+  license: CC0-1.0 OR Apache-2.0 OR Apache-2.0 WITH LLVM-exception
+  license_file:
+    - LICENSE_CC0
+    - LICENSE_A2
+    - LICENSE_A2LLVM
+    - THIRDPARTY.yml
+  repository: https://github.com/BLAKE3-team/BLAKE3
+
+extra:
+  recipe-maintainers:
+    - maarten-k
